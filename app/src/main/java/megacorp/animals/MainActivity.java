@@ -18,6 +18,21 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        soundPool = buildSoundPool();
+
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new ImageAdapter(this));
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                if (loaded) {
+                    soundPool.play(position+1, 1.0f, 1.0f, 1, 0, 1.0f);
+                }
+            }
+        });
+    }
+
+    public SoundPool buildSoundPool(){
+
         SoundPool.Builder builder =  new SoundPool.Builder();
         builder.setMaxStreams(25);
 
@@ -38,14 +53,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (loaded) {
-                    soundPool.play(position+1, 1.0f, 1.0f, 1, 0, 1.0f);
-                }
-            }
-        });
+        return soundPool;
     }
 }
