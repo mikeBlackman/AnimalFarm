@@ -8,15 +8,24 @@ import android.widget.GridView;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class MainActivity extends ActionBarActivity {
 
     boolean loaded = false;
     SoundPool soundPool;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
         soundPool = buildSoundPool();
 
@@ -48,11 +57,21 @@ public class MainActivity extends ActionBarActivity {
         soundPool.load(this, R.raw.turkey2, 1);
 
         soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
-            public void onLoadComplete(SoundPool soundPool, int sampleId,int status) {
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 loaded = true;
             }
         });
 
         return soundPool;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        String name = "main screen";
+        mTracker.setScreenName("Image~" + name);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
     }
 }
