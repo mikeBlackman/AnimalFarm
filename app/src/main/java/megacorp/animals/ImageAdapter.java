@@ -10,15 +10,20 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-/**
- * Created by mblackman on 19/07/15.
- */
 
-public class ImageAdapter extends BaseAdapter {
+class ImageAdapter extends BaseAdapter {
 
     private Context mContext;
 
-    public ImageAdapter(Context c) {
+    // references to our images
+    private Integer[] mThumbIds = {
+            R.drawable.cat, R.drawable.chicken,
+            R.drawable.cow, R.drawable.dog,
+            R.drawable.duck, R.drawable.horse,
+            R.drawable.pig, R.drawable.sheep, R.drawable.turkey
+    };
+
+    ImageAdapter(Context c) {
         mContext = c;
     }
 
@@ -62,11 +67,4 @@ public class ImageAdapter extends BaseAdapter {
         return imageView;
     }
 
-    // references to our images
-    private Integer[] mThumbIds = {
-            R.drawable.cat, R.drawable.chicken,
-            R.drawable.cow, R.drawable.dog,
-            R.drawable.duck, R.drawable.horse,
-            R.drawable.pig, R.drawable.sheep, R.drawable.turkey
-    };
 }
