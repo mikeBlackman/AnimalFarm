@@ -1,3 +1,3 @@
 package megacorp.animals
 
-data class Animal (val soundId : Int, val imageId : Int)
+data class Animal(val soundId: Int, val imageId: Int)
