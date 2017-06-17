@@ -2,47 +2,44 @@ package megacorp.animals;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AnimalAdapter.OnAnimalClickListener {
 
     boolean loaded;
     SoundPool soundPool;
-    List<Animal> animals = new ArrayList<>();
+    ArrayList<Animal> animals = new ArrayList<>();
 
-    // TODO Use a recyclerview, proper adapter etc
-    // Konvert to kotlin
-    // Add new images
+    // Todo convert all classes to kotlin
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        soundPool = buildSoundPool();
+
         buildAnimalData();
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (loaded) {
-                    soundPool.play(position+1, 1.0f, 1.0f, 1, 0, 1.0f);
-                }
-            }
-        });
+        soundPool = buildSoundPool();
+
+        AnimalAdapter animalAdapter = new AnimalAdapter();
+        animalAdapter.setAnimals(animals);
+        animalAdapter.setOnAnimalClickListener(this);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setAdapter(animalAdapter);
+
     }
 
-    public SoundPool buildSoundPool(){
-        SoundPool.Builder builder =  new SoundPool.Builder();
-        builder.setMaxStreams(25);
+    public SoundPool buildSoundPool() {
+        SoundPool.Builder builder = new SoundPool.Builder();
+        builder.setMaxStreams(16);
         soundPool = builder.build();
-        for (Animal animal : animals){
+        for (Animal animal : animals) {
             soundPool.load(this, animal.getSoundId(), 1);
         }
         soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
@@ -53,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         return soundPool;
     }
 
-    void buildAnimalData(){
+    void buildAnimalData() {
         animals.add(new Animal(R.raw.cat, R.drawable.cat));
         animals.add(new Animal(R.raw.chicken2, R.drawable.chicken));
         animals.add(new Animal(R.raw.cow, R.drawable.cow));
@@ -63,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
         animals.add(new Animal(R.raw.pig, R.drawable.pig));
         animals.add(new Animal(R.raw.sheep, R.drawable.sheep));
         animals.add(new Animal(R.raw.turkey2, R.drawable.turkey));
+        animals.add(new Animal(R.raw.mouse2, R.drawable.mouse));
+    }
+
+    @Override
+    public void onAnimalClick(Animal item, int position) {
+        if (loaded) {
+            soundPool.play(position + 1, 1.0f, 1.0f, 1, 0, 1.0f);
+        }
     }
 
 }
+
