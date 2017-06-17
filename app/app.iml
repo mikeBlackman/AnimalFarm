@@ -38,11 +38,16 @@
           <option name="languageVersion" value="1.1" />
           <option name="apiVersion" value="1.1" />
           <option name="pluginClasspaths">
-            <array />
+            <array>
+              <option value="C:\Users\Mike\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-android-extensions\1.1.2-5\3bfe66dafdeed4a82cf0ac6fbc5e4f0a8a2a203e\kotlin-android-extensions-1.1.2-5.jar" />
+            </array>
           </option>
           <option name="coroutinesWarn" value="true" />
           <option name="pluginOptions">
-            <array />
+            <array>
+              <option value="plugin:org.jetbrains.kotlin.android:package=megacorp.animals" />
+              <option value="plugin:org.jetbrains.kotlin.android:variant=main;C:\Users\Mike\Documents\animalfarm\app\src\main\res" />
+            </array>
           </option>
         </compilerArguments>
       </configuration>
