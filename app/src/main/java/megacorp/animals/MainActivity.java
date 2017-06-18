@@ -1,77 +1,74 @@
 package megacorp.animals;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity implements AnimalAdapter.OnAnimalClickListener {
 
-    boolean loaded = false;
+    boolean loaded;
     SoundPool soundPool;
+    ArrayList<Animal> animals = new ArrayList<>();
 
-    private Tracker mTracker;
+    // Todo convert all classes to kotlin
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Obtain the shared Tracker instance.
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-
+        buildAnimalData();
         soundPool = buildSoundPool();
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (loaded) {
-                    soundPool.play(position+1, 1.0f, 1.0f, 1, 0, 1.0f);
-                }
-            }
-        });
+        AnimalAdapter animalAdapter = new AnimalAdapter();
+        animalAdapter.setAnimals(animals);
+        animalAdapter.setOnAnimalClickListener(this);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setAdapter(animalAdapter);
+
     }
 
-    public SoundPool buildSoundPool(){
-
-        SoundPool.Builder builder =  new SoundPool.Builder();
-        builder.setMaxStreams(25);
-
+    public SoundPool buildSoundPool() {
+        SoundPool.Builder builder = new SoundPool.Builder();
+        builder.setMaxStreams(16);
         soundPool = builder.build();
-        soundPool.load(this, R.raw.cat, 1);
-        soundPool.load(this, R.raw.chicken2, 1);
-        soundPool.load(this, R.raw.cow, 1);
-        soundPool.load(this, R.raw.dog1, 1);
-        soundPool.load(this, R.raw.duck, 1);
-        soundPool.load(this, R.raw.horse, 1);
-        soundPool.load(this, R.raw.pig, 1);
-        soundPool.load(this, R.raw.sheep, 1);
-        soundPool.load(this, R.raw.turkey2, 1);
-
+        for (Animal animal : animals) {
+            soundPool.load(this, animal.getSoundId(), 1);
+        }
         soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 loaded = true;
             }
         });
-
         return soundPool;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();  // Always call the superclass method first
-
-        String name = "main screen";
-        mTracker.setScreenName("Image~" + name);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-
+    void buildAnimalData() {
+        animals.add(new Animal(R.raw.cat, R.drawable.cat));
+        animals.add(new Animal(R.raw.chicken2, R.drawable.chicken));
+        animals.add(new Animal(R.raw.cow, R.drawable.cow));
+        animals.add(new Animal(R.raw.dog1, R.drawable.dog));
+        animals.add(new Animal(R.raw.duck, R.drawable.duck));
+        animals.add(new Animal(R.raw.horse, R.drawable.horse));
+        animals.add(new Animal(R.raw.pig, R.drawable.pig));
+        animals.add(new Animal(R.raw.sheep, R.drawable.sheep));
+        animals.add(new Animal(R.raw.turkey2, R.drawable.turkey));
+        animals.add(new Animal(R.raw.mouse2, R.drawable.mouse));
     }
+
+    @Override
+    public void onAnimalClick(Animal item, int position) {
+        if (loaded) {
+            soundPool.play(position + 1, 1.0f, 1.0f, 1, 0, 1.0f);
+        }
+    }
+
 }
+
