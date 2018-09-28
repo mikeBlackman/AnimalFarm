@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import java.util.ArrayList
 import kotlinx.android.synthetic.main.animal_holder.view.*
 
@@ -40,7 +39,7 @@ class AnimalAdapter : RecyclerView.Adapter<AnimalAdapter.AnimalHolder>() {
 
     class AnimalHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val animalImageView: ImageView = view.animalImageView
+        private val animalImageView = view.animalImageView
 
         fun bind(animal: Animal, position: Int, listener: OnAnimalClickListener) {
             animalImageView.setImageResource(animal.imageId)
