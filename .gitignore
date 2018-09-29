@@ -7,3 +7,5 @@
 /gen
 /captures
 .externalNativeBuild
+/app/release
+/app/build
