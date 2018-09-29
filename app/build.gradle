@@ -9,8 +9,8 @@ android {
         applicationId "megacorp.animals"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 17092822
-        versionName "2.1"
+        versionCode 170929212
+        versionName "2.1.2"
     }
     buildTypes {
         release {

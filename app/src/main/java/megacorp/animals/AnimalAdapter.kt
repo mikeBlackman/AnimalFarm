@@ -41,11 +41,12 @@ class AnimalAdapter : RecyclerView.Adapter<AnimalAdapter.AnimalHolder>() {
 
         private val animalImageView = view.animalImageView
         private val animalName = view.animalName
+        private val cardView = view.card_view
 
         fun bind(animal: Animal, position: Int, listener: OnAnimalClickListener) {
             animalImageView.setImageResource(animal.imageId)
             animalName.text = animal.animalName
-            itemView.setOnClickListener { listener.onAnimalClick(animal, position) }
+            cardView.setOnClickListener { listener.onAnimalClick(animal, position) }
         }
     }
 }
