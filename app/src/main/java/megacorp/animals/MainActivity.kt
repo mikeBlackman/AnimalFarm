@@ -3,9 +3,8 @@ package megacorp.animals
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.media.SoundPool
-import android.view.View
+import kotlinx.android.synthetic.main.activity_main.*
 
 import java.util.ArrayList
 
@@ -26,7 +25,6 @@ class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
         animalAdapter.setAnimals(animals)
         animalAdapter.setOnAnimalClickListener(this)
 
-        val recyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = animalAdapter
     }
@@ -43,16 +41,16 @@ class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
     }
 
     private fun buildAnimalData() {
-        animals.add(Animal(R.raw.cat, R.drawable.cat))
-        animals.add(Animal(R.raw.chicken2, R.drawable.chicken))
-        animals.add(Animal(R.raw.cow, R.drawable.cow))
-        animals.add(Animal(R.raw.dog1, R.drawable.dog))
-        animals.add(Animal(R.raw.duck, R.drawable.duck))
-        animals.add(Animal(R.raw.horse, R.drawable.horse))
-        animals.add(Animal(R.raw.pig, R.drawable.pig))
-        animals.add(Animal(R.raw.sheep, R.drawable.sheep))
-        animals.add(Animal(R.raw.turkey2, R.drawable.turkey))
-        animals.add(Animal(R.raw.mouse2, R.drawable.mouse))
+        animals.add(Animal(R.raw.cat, R.drawable.cat, "Cat"))
+        animals.add(Animal(R.raw.chicken2, R.drawable.chicken, "Chicken"))
+        animals.add(Animal(R.raw.cow, R.drawable.cow, "Cow"))
+        animals.add(Animal(R.raw.dog1, R.drawable.dog, "Dog"))
+        animals.add(Animal(R.raw.duck, R.drawable.duck, "Duck"))
+        animals.add(Animal(R.raw.horse, R.drawable.horse, "Horse"))
+        animals.add(Animal(R.raw.pig, R.drawable.pig, "Pig"))
+        animals.add(Animal(R.raw.sheep, R.drawable.sheep, "Sheep"))
+        animals.add(Animal(R.raw.turkey2, R.drawable.turkey, "Turkey"))
+        animals.add(Animal(R.raw.mouse2, R.drawable.mouse, "Mouse"))
     }
 
     override fun onAnimalClick(item: Animal, position: Int) {
