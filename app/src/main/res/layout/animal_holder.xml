@@ -22,13 +22,13 @@
             android:orientation="vertical">
 
             <megacorp.animals.SquareImageView
-                android:id="@+id/animalImageView"
+                android:id="@+id/animal_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY" />
 
             <TextView
-                android:id="@+id/animalName"
+                android:id="@+id/animal_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
