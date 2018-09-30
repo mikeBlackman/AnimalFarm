@@ -26,7 +26,7 @@ class AnimalAdapter : RecyclerView.Adapter<AnimalAdapter.AnimalHolder>() {
     }
 
     override fun onBindViewHolder(holder: AnimalHolder, position: Int) {
-        holder.bind(animals[position], position, animalClickListener)
+        holder.bind(animals[position], animalClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -34,7 +34,7 @@ class AnimalAdapter : RecyclerView.Adapter<AnimalAdapter.AnimalHolder>() {
     }
 
     interface OnAnimalClickListener {
-        fun onAnimalClick(item: Animal, position: Int)
+        fun onAnimalClick(item: Animal)
     }
 
     class AnimalHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -43,10 +43,10 @@ class AnimalAdapter : RecyclerView.Adapter<AnimalAdapter.AnimalHolder>() {
         private val animalName = view.animalName
         private val cardView = view.card_view
 
-        fun bind(animal: Animal, position: Int, listener: OnAnimalClickListener) {
+        fun bind(animal: Animal, listener: OnAnimalClickListener) {
             animalImageView.setImageResource(animal.imageId)
             animalName.text = animal.animalName
-            cardView.setOnClickListener { listener.onAnimalClick(animal, position) }
+            cardView.setOnClickListener { listener.onAnimalClick(animal) }
         }
     }
 }

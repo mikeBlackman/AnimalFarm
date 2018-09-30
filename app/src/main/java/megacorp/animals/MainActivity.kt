@@ -13,34 +13,33 @@ class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
     private var loaded = false
     private lateinit var soundPool: SoundPool
     private var animals = ArrayList<Animal>()
+    private lateinit var soundPoolMap: HashMap<Int, Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buildAnimalData()
-        soundPool = buildSoundPool()
+        buildAnimals()
+        buildAndPopulateSoundPool()
 
         val animalAdapter = AnimalAdapter()
         animalAdapter.setAnimals(animals)
         animalAdapter.setOnAnimalClickListener(this)
 
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager = GridLayoutManager(this, this.resources.getInteger(R.integer.span_count))
         recyclerView.adapter = animalAdapter
     }
 
-    private fun buildSoundPool(): SoundPool {
-        val builder = SoundPool.Builder()
-        builder.setMaxStreams(16)
-        soundPool = builder.build()
-        for ((soundId) in animals) {
-            soundPool.load(this, soundId, 1)
-        }
+    private fun buildAndPopulateSoundPool() {
+        soundPool = SoundPool.Builder().setMaxStreams(16).build()
         soundPool.setOnLoadCompleteListener { _, _, _ -> loaded = true }
-        return soundPool
+        soundPoolMap = HashMap()
+        animals.forEach {
+            soundPoolMap[it.soundId] = soundPool.load(this, it.soundId, 1)
+        }
     }
 
-    private fun buildAnimalData() {
+    private fun buildAnimals() {
         animals.add(Animal(R.raw.cat, R.drawable.cat, "Cat"))
         animals.add(Animal(R.raw.chicken2, R.drawable.chicken, "Chicken"))
         animals.add(Animal(R.raw.cow, R.drawable.cow, "Cow"))
@@ -53,9 +52,9 @@ class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
         animals.add(Animal(R.raw.mouse2, R.drawable.mouse, "Mouse"))
     }
 
-    override fun onAnimalClick(item: Animal, position: Int) {
-        if (loaded) {
-            soundPool.play(position + 1, 1.0f, 1.0f, 1, 0, 1.0f)
+    override fun onAnimalClick(item: Animal) {
+        if (loaded && soundPoolMap.containsKey(item.soundId)) {
+            soundPool.play(soundPoolMap[item.soundId]!!, 1.0f, 1.0f, 1, 0, 1.0f)
         }
     }
 
