@@ -10,7 +10,7 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
 
-    private var loaded = false
+    private var loaded : Boolean = false
     private lateinit var soundPool: SoundPool
     private var animals = ArrayList<Animal>()
     private lateinit var soundPoolMap: HashMap<Int, Int>
