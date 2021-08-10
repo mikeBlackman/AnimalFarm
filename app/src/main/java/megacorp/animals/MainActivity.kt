@@ -1,8 +1,8 @@
 package megacorp.animals
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import android.media.SoundPool
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,7 +26,11 @@ class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
         animalAdapter.setAnimals(animals)
         animalAdapter.setOnAnimalClickListener(this)
 
-        recyclerView.layoutManager = GridLayoutManager(this, this.resources.getInteger(R.integer.span_count))
+        recyclerView.layoutManager =
+            GridLayoutManager(
+                this,
+                this.resources.getInteger(R.integer.span_count)
+            )
         recyclerView.adapter = animalAdapter
     }
 
