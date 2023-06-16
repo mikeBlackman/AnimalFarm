@@ -4,13 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import android.media.SoundPool
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.recyclerview.widget.RecyclerView
 
 import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
 
-    private var loaded : Boolean = false
+    private var loaded: Boolean = false
     private lateinit var soundPool: SoundPool
     private var animals = ArrayList<Animal>()
     private lateinit var soundPoolMap: HashMap<Int, Int>
@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
         val animalAdapter = AnimalAdapter()
         animalAdapter.setAnimals(animals)
         animalAdapter.setOnAnimalClickListener(this)
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
         recyclerView.layoutManager =
             GridLayoutManager(
@@ -58,9 +60,12 @@ class MainActivity : AppCompatActivity(), AnimalAdapter.OnAnimalClickListener {
 
     override fun onAnimalClick(item: Animal) {
         if (loaded && soundPoolMap.containsKey(item.soundId)) {
-            soundPool.play(soundPoolMap[item.soundId]!!, 1.0f, 1.0f, 1, 0, 1.0f)
+            val soundId: Int = soundPoolMap[item.soundId] ?: return
+            soundPool.play(soundId, 1.0f, 1.0f, 1, 0, 1.0f)
         }
     }
 
 }
+
+data class Animal(val soundId: Int, val imageId: Int, val animalName: String)
 
